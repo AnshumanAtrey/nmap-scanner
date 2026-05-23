@@ -1,0 +1,20 @@
+{
+    "actorOutputSchemaVersion": 1,
+    "title": "nmap Scan Output",
+    "description": "Network scan results from nmap. Each scan pushes multiple dataset items with a `recordType` discriminator: `port` (one per discovered port), `host` (one per scanned host), `script` (one per NSE script result), and `summary` (one per scan run with aggregate stats and the executed command).",
+    "type": "object",
+    "properties": {
+        "scanResults": {
+            "type": "string",
+            "title": "Scan Results",
+            "description": "All scan findings — discovered ports, host information, NSE script outputs, and the summary row. Filter the dataset by `recordType` (port|host|script|summary) to view a single category.",
+            "template": "{{links.apiDefaultDatasetUrl}}/items"
+        },
+        "rawXml": {
+            "type": "string",
+            "title": "Raw nmap XML",
+            "description": "Raw nmap -oX XML output for the scan, saved as `nmap-output.xml` in the key-value store for downstream tooling that prefers nmap's native format.",
+            "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/nmap-output.xml"
+        }
+    }
+}

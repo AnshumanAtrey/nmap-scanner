@@ -1,0 +1,86 @@
+{
+    "actorSpecification": 1,
+    "name": "nmap-scanner",
+    "title": "nmap - Network Port Scanner & Service Detection",
+    "description": "Cloud-hosted nmap (the industry-standard network scanner by Fyodor). Run port scans, service/version detection, and NSE scripts against any target you're authorized to scan. Results streamed as structured dataset records — one row per discovered port, plus host and summary records.",
+    "version": "1.0",
+    "buildTag": "latest",
+    "categories": ["DEVELOPER_TOOLS", "AUTOMATION"],
+    "input": "./INPUT_SCHEMA.json",
+    "output": "./output_schema.json",
+    "dockerfile": "../Dockerfile",
+    "readme": "../README.md",
+    "storages": {
+        "dataset": {
+            "actorSpecification": 1,
+            "title": "nmap Scan Results",
+            "views": {
+                "ports": {
+                    "title": "Open Ports",
+                    "transformation": {
+                        "fields": ["host", "port", "protocol", "state", "service", "product", "version", "timestamp"]
+                    },
+                    "display": {
+                        "component": "table",
+                        "properties": {
+                            "host":    { "label": "Host",     "format": "text" },
+                            "port":    { "label": "Port",     "format": "number" },
+                            "protocol":{ "label": "Proto",    "format": "text" },
+                            "state":   { "label": "State",    "format": "text" },
+                            "service": { "label": "Service",  "format": "text" },
+                            "product": { "label": "Product",  "format": "text" },
+                            "version": { "label": "Version",  "format": "text" }
+                        }
+                    }
+                },
+                "hosts": {
+                    "title": "Hosts",
+                    "transformation": {
+                        "fields": ["host", "address", "hostname", "status", "openPorts", "timestamp"]
+                    },
+                    "display": {
+                        "component": "table",
+                        "properties": {
+                            "host":      { "label": "Target",     "format": "text" },
+                            "address":   { "label": "IP",         "format": "text" },
+                            "hostname":  { "label": "Hostname",   "format": "text" },
+                            "status":    { "label": "Status",     "format": "text" },
+                            "openPorts": { "label": "Open Ports", "format": "number" }
+                        }
+                    }
+                },
+                "scripts": {
+                    "title": "NSE Script Results",
+                    "transformation": {
+                        "fields": ["host", "port", "scriptId", "output", "timestamp"]
+                    },
+                    "display": {
+                        "component": "table",
+                        "properties": {
+                            "host":     { "label": "Host",    "format": "text" },
+                            "port":     { "label": "Port",    "format": "number" },
+                            "scriptId": { "label": "Script",  "format": "text" },
+                            "output":   { "label": "Output",  "format": "text" }
+                        }
+                    }
+                },
+                "summary": {
+                    "title": "Run Summary",
+                    "transformation": {
+                        "fields": ["recordType", "target", "scanType", "ports", "hostsUp", "openPortsTotal", "scanDuration", "timestamp"]
+                    },
+                    "display": {
+                        "component": "table",
+                        "properties": {
+                            "target":        { "label": "Target",       "format": "text" },
+                            "scanType":      { "label": "Scan Type",    "format": "text" },
+                            "hostsUp":       { "label": "Hosts Up",     "format": "number" },
+                            "openPortsTotal":{ "label": "Open Ports",   "format": "number" },
+                            "scanDuration":  { "label": "Duration (s)", "format": "number" }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

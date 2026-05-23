@@ -1,0 +1,121 @@
+{
+    "title": "nmap Scan Configuration",
+    "description": "Configure an nmap scan. Required: target. Most users want scanProfile=standard and the default port range.",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "target": {
+            "title": "Target",
+            "type": "string",
+            "description": "IP address, hostname, CIDR range, or space-separated list. Examples: 8.8.8.8 | scanme.nmap.org | 192.168.1.0/24 | 10.0.0.1 10.0.0.2. You MUST be authorized to scan the target.",
+            "editor": "textfield",
+            "prefill": "scanme.nmap.org",
+            "example": "scanme.nmap.org"
+        },
+        "scanProfile": {
+            "title": "Scan Profile",
+            "type": "string",
+            "description": "Preset combinations. quick = top 100 ports fast | standard = top 1000 + service detection | thorough = all 65535 ports + scripts | web = web ports + HTTP scripts | vuln = vulnerability NSE scripts. Pick 'custom' to use the raw flags below.",
+            "default": "standard",
+            "editor": "select",
+            "enum": ["quick", "standard", "thorough", "web", "vuln", "custom"],
+            "enumTitles": [
+                "Quick (top 100 ports)",
+                "Standard (top 1000 ports + service detection)",
+                "Thorough (all 65535 ports + default scripts)",
+                "Web (HTTP/HTTPS ports + http NSE scripts)",
+                "Vuln Scan (NSE vuln scripts)",
+                "Custom (use ports/scripts/customArgs below)"
+            ]
+        },
+        "ports": {
+            "title": "Ports",
+            "type": "string",
+            "description": "Port specification (only used when scanProfile is 'custom'). Examples: 22 | 1-1000 | 22,80,443 | top-100 | top-1000 | all. Leave empty for nmap default.",
+            "editor": "textfield",
+            "sectionCaption": "Custom Scan Options",
+            "sectionDescription": "Used when scanProfile=custom (or to override profile defaults)."
+        },
+        "scanTechnique": {
+            "title": "Scan Technique",
+            "type": "string",
+            "description": "TCP connect (-sT) is the only technique that works without root. Apify containers run unprivileged so SYN/UDP/etc are not available.",
+            "default": "tcp-connect",
+            "editor": "select",
+            "enum": ["tcp-connect"],
+            "enumTitles": ["TCP Connect (-sT) — only option on Apify unprivileged sandbox"]
+        },
+        "serviceDetection": {
+            "title": "Service & Version Detection (-sV)",
+            "type": "boolean",
+            "description": "Identify what service is running on each open port and its version. Adds 10-60s per host.",
+            "default": true,
+            "editor": "checkbox"
+        },
+        "defaultScripts": {
+            "title": "Default NSE Scripts (-sC)",
+            "type": "boolean",
+            "description": "Run the default category of NSE scripts (~100 useful scripts: banner grabbing, SSL info, HTTP titles, etc.).",
+            "default": false,
+            "editor": "checkbox"
+        },
+        "customScripts": {
+            "title": "Custom NSE Scripts (--script)",
+            "type": "string",
+            "description": "Comma-separated NSE script names or categories. Examples: http-title,ssl-cert | vuln | http-* | safe and discovery.",
+            "editor": "textfield"
+        },
+        "timing": {
+            "title": "Timing Template",
+            "type": "string",
+            "description": "T0 paranoid (slow, IDS-evading) ... T5 insane (very fast, may miss results). T4 is the sweet spot for most internet targets.",
+            "default": "T4",
+            "editor": "select",
+            "enum": ["T0", "T1", "T2", "T3", "T4", "T5"],
+            "enumTitles": [
+                "T0 Paranoid (5 min between probes)",
+                "T1 Sneaky (15s)",
+                "T2 Polite (0.4s)",
+                "T3 Normal (default)",
+                "T4 Aggressive (fast)",
+                "T5 Insane (very fast)"
+            ]
+        },
+        "skipHostDiscovery": {
+            "title": "Skip Host Discovery (-Pn)",
+            "type": "boolean",
+            "description": "Assume host is up, skip ping probe. Recommended — Apify network often blocks ICMP.",
+            "default": true,
+            "editor": "checkbox"
+        },
+        "excludePorts": {
+            "title": "Exclude Ports",
+            "type": "string",
+            "description": "Comma-separated ports to exclude (--exclude-ports). Example: 9100,4444",
+            "editor": "textfield"
+        },
+        "openPortsOnly": {
+            "title": "Show Only Open Ports (--open)",
+            "type": "boolean",
+            "description": "Suppress closed/filtered ports in the output. Cleaner dataset.",
+            "default": true,
+            "editor": "checkbox"
+        },
+        "customArgs": {
+            "title": "Custom nmap Arguments (advanced)",
+            "type": "string",
+            "description": "Raw nmap flags appended to the command. Use with care — must be valid nmap flags. Example: --max-retries 2 --host-timeout 30s",
+            "editor": "textfield"
+        },
+        "timeout": {
+            "title": "Subprocess Timeout (seconds)",
+            "type": "integer",
+            "description": "Hard kill nmap after this many seconds. Default 1800 (30 min).",
+            "default": 1800,
+            "minimum": 30,
+            "maximum": 3600,
+            "editor": "number"
+        }
+    },
+    "required": ["target"]
+}
