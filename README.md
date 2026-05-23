@@ -1,5 +1,8 @@
 # nmap — Network Port Scanner & Service Detection
 
+📦 **Open source · MIT:** [github.com/AnshumanAtrey/nmap-scanner](https://github.com/AnshumanAtrey/nmap-scanner)
+
+
 Cloud-hosted [nmap](https://nmap.org) (the industry-standard network scanner by Fyodor / Insecure.Com). Run port scans, service/version detection, OS fingerprinting (limited), and the full library of [Nmap Scripting Engine (NSE)](https://nmap.org/book/nse.html) scripts against any target you're authorized to scan.
 
 Results are streamed into the Apify dataset as **structured records** — one row per open port, one per host, one per NSE script result, plus a summary. The raw nmap XML is also saved to the key-value store for downstream tooling.
