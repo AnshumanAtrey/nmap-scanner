@@ -1,0 +1,36 @@
+{
+  "$comment": "Example tasks published on the Store by scripts/publish-tasks.mjs after every deploy (CI only). Each one is a search people type, with its own Google-indexed landing page and .md (manager/rules/SEO.md). scanme.nmap.org is the host the Nmap project provides for test scans; only scan hosts you are authorized to scan.",
+  "options": {
+    "build": "latest",
+    "memoryMbytes": 1024,
+    "timeoutSecs": 1800
+  },
+  "tasks": [
+    {
+      "name": "online-port-scanner",
+      "title": "Online port scanner: open ports and services of a host",
+      "description": "Scan a host's 1,000 most common TCP ports from the cloud with nmap and get each open port with the service and version running on it, one row per port. No install. scanme.nmap.org is the Nmap project's test host; scan only hosts you are authorized to scan.",
+      "input": {
+        "target": "scanme.nmap.org",
+        "scanProfile": "standard"
+      },
+      "seoTitle": "Online Port Scanner - Nmap in the Cloud, No Install",
+      "seoDescription": "Scan the top 1,000 TCP ports of a host with cloud nmap and get each open port's service and version. No install. Scan only hosts you are authorized to.",
+      "inputSchemaFields": ["target", "scanProfile", "timing"],
+      "datasetView": "ports"
+    },
+    {
+      "name": "website-port-and-ssl-scan",
+      "title": "Website scan: web ports, page titles and SSL certificates",
+      "description": "Check a web server's HTTP and HTTPS ports with nmap's web profile: open ports, server software, page titles and SSL certificate details from NSE scripts, one row per finding. Scan only hosts you are authorized to scan.",
+      "input": {
+        "target": "scanme.nmap.org",
+        "scanProfile": "web"
+      },
+      "seoTitle": "Website Port Scan - HTTP Ports, Titles, SSL Certs",
+      "seoDescription": "Scan a web server's HTTP and HTTPS ports with nmap: server software, page titles and SSL certificate details. Scan only hosts you are authorized to.",
+      "inputSchemaFields": ["target", "scanProfile", "customScripts"],
+      "datasetView": "ports"
+    }
+  ]
+}

@@ -37,7 +37,7 @@ Pay-per-event:
 | Event | Price | When it fires |
 |---|---|---|
 | `Actor Start` | $0.25 | Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event) |
-| `Scan Record` | $0.005 | Charged per dataset record produced: each discovered port, scanned host, NSE script result, and the summary row |
+| `Scan Record` | $0.005 | Charged per dataset record produced: each discovered port, scanned host, NSE script result, and the summary row. ($0.0045 on Apify's Scale plan, $0.004 on Business and above) |
 
 ### Typical scan costs
 
