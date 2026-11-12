@@ -6,6 +6,13 @@ Available as an [Apify Actor](https://apify.com/anshumanatrey/nmap-scanner). Pay
 
 ---
 
+**Use it from an AI assistant:**
+
+- **Claude** (claude.ai and the desktop app): [Add Nmap Cloud Scanner to Claude](https://claude.ai/customize/connectors?modal=add-custom-connector&connectorName=Nmap%20Cloud%20Scanner&connectorUrl=https%3A%2F%2Fmcp.apify.com%3Ftools%3Danshumanatrey%2Fnmap-scanner), click Continue, sign in to Apify, Allow, and ask in plain words.
+- **Claude Code:** `claude mcp add --transport http nmap-scanner "https://mcp.apify.com?tools=anshumanatrey/nmap-scanner"`, then run `/mcp` to sign in to Apify.
+- **Codex:** `codex mcp add nmap-scanner --url "https://mcp.apify.com?tools=anshumanatrey/nmap-scanner"`, then `codex mcp login nmap-scanner`.
+- **Any other MCP client:** `https://mcp.apify.com?tools=anshumanatrey/nmap-scanner`, signed in with Apify or an `Authorization: Bearer <APIFY_TOKEN>` header.
+
 ## What does it do?
 
 Performs Nmap port scans on a target host or CIDR range from cloud infrastructure. TCP/SYN scans, service and version detection, full NSE script support (`vuln`, `discovery`, `safe`, `default`, custom). Returns structured per-port dataset records (host, port, protocol, state, service, version, script_output) plus raw Nmap XML in key-value store for offline parsing. Authorized testing only - documentation requires confirmation of ownership or permission.
