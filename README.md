@@ -56,7 +56,7 @@ Pay-per-event:
 
 | Field | Required | What it does |
 |---|---|---|
-| `targets` | yes | Hostnames, IPs, or CIDR ranges |
+| `target` | yes | Hostnames, IPs, or CIDR ranges. Left blank, the run scans the example scanme.nmap.org, nmap's own test host |
 | `ports` | no | Port ranges to scan (default: top 1000) |
 | `scan_type` | no | tcp_syn / tcp_connect / udp |
 | `nse_scripts` | no | Script categories or names |

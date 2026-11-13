@@ -202,15 +202,22 @@ def parse_nmap_xml(xml_path: str) -> dict:
     return result
 
 
+EXAMPLE_TARGET = 'scanme.nmap.org'  # the form's prefill, nmap's own test host: scanned when no target is given
+
+
 async def main() -> None:
     async with Actor:
         Actor.log.info('nmap Apify Actor starting')
 
         input_data = await Actor.get_input() or {}
-        target = input_data.get('target')
-        if not target:
-            await Actor.fail(status_message='target is required (IP, hostname, CIDR, or space-separated list)')
-            return
+        target = str(input_data.get('target') or '').strip()
+        # No target (a blank field passes Apify's input check): scan nmap's own test host instead of failing, so the
+        # run shows what it returns (owner, 2026-11-14). Billed like any run: Apify charges the start and the rows.
+        example = not target
+        if example:
+            target = EXAMPLE_TARGET
+            Actor.log.warning(f'No target given, so this run scans the example {EXAMPLE_TARGET}, nmap\'s own test host.')
+        input_data = {**input_data, 'target': target}
 
         cmd, profile = build_command(input_data)
         Actor.log.info(f'Target: {target}')
@@ -324,6 +331,10 @@ async def main() -> None:
         await Actor.push_data(summary)
 
         Actor.log.info(f'Scan complete: {parsed["stats"].get("hostsUp", 0)} hosts up, {open_ports_total} open ports, {len(parsed["scripts"])} script results')
+        if example:
+            await Actor.set_status_message(
+                f'No target was given, so this run scanned the example {EXAMPLE_TARGET}, nmap\'s own test host: '
+                f'{open_ports_total} open port(s). Enter your own IP, hostname or range in target.')
 
 
 if __name__ == '__main__':
